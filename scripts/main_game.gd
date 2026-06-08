@@ -14,8 +14,8 @@ var snake_body: Array[Vector2i] = [
 
 
 func _on_game_tick_timeout() -> void:
-	draw_snake()
 	move_snake()
+	draw_snake()
 
 
 func draw_snake() -> void:
@@ -28,15 +28,27 @@ func draw_snake() -> void:
 		)
 
 
-func erase_trail() -> void:
-	pass
-
-
 func move_snake() -> void:
-	var snake_body_copy: Array[Vector2i] = snake_body.slice(1)
-	var new_head: Vector2i = snake_body[0] + Vector2i(1, 0)
-	snake_body_copy.insert(0, new_head)
-	snake_body = snake_body_copy
+	erase_trail()
+	var body_copy = snake_body.duplicate()
+	body_copy.pop_back()
+	var new_head = snake_body.front() + snake_direction
+	body_copy.insert(0, new_head)
+	snake_body = body_copy
+	
+
+
+func erase_trail() -> void:
+	var used_cells = $GameTile.get_used_cells_by_id(
+		FIRST_LAYER,
+		SNAKE_TILE_ID
+	)
+	for cell in used_cells:
+		var cell_coords: Vector2i = Vector2i(
+			cell.x,
+			cell.y
+		)
+		$GameTile.erase_cell(FIRST_LAYER, cell_coords)
 
 
 func _input(_event: InputEvent) -> void:
