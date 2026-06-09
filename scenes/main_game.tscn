@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dwiuchnf5dxuy" path="res://scripts/main_game.gd" id="1_72e8q"]
 [ext_resource type="Texture2D" uid="uid://d02wiso5vdcid" path="res://assets/snake3.png" id="2_72e8q"]
+[ext_resource type="Texture2D" uid="uid://k25t7amktl8k" path="res://assets/apple1.png" id="3_d2op2"]
+[ext_resource type="Texture2D" uid="uid://xk1xwsecabtq" path="res://assets/grass.png" id="4_0rdsr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2op2"]
 texture = ExtResource("2_72e8q")
@@ -9,19 +11,31 @@ texture_region_size = Vector2i(20, 20)
 0:0/0 = 0
 1:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rdsr"]
+texture = ExtResource("3_d2op2")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_0rdsr"]
 tile_size = Vector2i(20, 20)
 sources/0 = SubResource("TileSetAtlasSource_d2op2")
+sources/1 = SubResource("TileSetAtlasSource_0rdsr")
 
 [node name="MainGame" type="Node2D" unique_id=1230426105]
 script = ExtResource("1_72e8q")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1209388767]
+offset_right = 401.0
+offset_bottom = 398.0
+texture = ExtResource("4_0rdsr")
+stretch_mode = 1
 
 [node name="GameTile" type="TileMap" parent="." unique_id=630865496]
 tile_set = SubResource("TileSet_0rdsr")
 format = 2
 
 [node name="GameTick" type="Timer" parent="." unique_id=631805506]
-wait_time = 0.6
+wait_time = 0.4
 autostart = true
 
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]

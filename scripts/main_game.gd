@@ -11,6 +11,11 @@ var snake_body: Array[Vector2i] = [
 	Vector2i(4, 10),
 	Vector2i(3, 10),
 ]
+var apple_position: Vector2i
+
+
+func _ready() -> void:
+	draw_apple()
 
 
 func _on_game_tick_timeout() -> void:
@@ -19,13 +24,36 @@ func _on_game_tick_timeout() -> void:
 
 
 func draw_snake() -> void:
-	for cell in snake_body:
-		$GameTile.set_cell(
+	for index in snake_body.size():
+		if index == 0:
+			$GameTile.set_cell(
 			FIRST_LAYER,
-			cell,
+			snake_body[index],
 			SNAKE_TILE_ID,
-			SNAKE_BODY_COORDS
+			Vector2i(1, 0)
 		)
+		else:
+			$GameTile.set_cell(
+				FIRST_LAYER,
+				snake_body[index],
+				SNAKE_TILE_ID,
+				SNAKE_BODY_COORDS
+			)
+
+
+func draw_apple() -> void:
+	var random_coords := Vector2i(
+		randi_range(0, 19),
+		randi_range(0, 19)
+	)
+	apple_position = random_coords
+	$GameTile.set_cell(
+		FIRST_LAYER,
+		random_coords,
+		1,
+		Vector2i(0, 0)
+	)
+	pass
 
 
 func move_snake() -> void:
@@ -35,7 +63,8 @@ func move_snake() -> void:
 	var new_head = snake_body.front() + snake_direction
 	body_copy.insert(0, new_head)
 	snake_body = body_copy
-	
+	if new_head == apple_position:
+		draw_apple()
 
 
 func erase_trail() -> void:
