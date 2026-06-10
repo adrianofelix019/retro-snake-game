@@ -12,6 +12,12 @@ var snake_body: Array[Vector2i] = [
 	Vector2i(3, 10),
 ]
 var apple_position: Vector2i
+enum TileRotation {
+	RIGHT = 0,
+	DOWN = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H,
+	LEFT = TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,
+	UP = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
+}
 
 
 func _ready() -> void:
@@ -30,7 +36,8 @@ func draw_snake() -> void:
 			FIRST_LAYER,
 			snake_body[index],
 			SNAKE_TILE_ID,
-			Vector2i(1, 0)
+			Vector2i(1, 0),
+			get_head_direction()
 		)
 		else:
 			$GameTile.set_cell(
@@ -53,7 +60,6 @@ func draw_apple() -> void:
 		1,
 		Vector2i(0, 0)
 	)
-	pass
 
 
 func move_snake() -> void:
@@ -78,6 +84,19 @@ func erase_trail() -> void:
 			cell.y
 		)
 		$GameTile.erase_cell(FIRST_LAYER, cell_coords)
+
+
+func get_head_direction():
+	if snake_direction == Vector2i.UP:
+		return TileRotation.UP
+	elif snake_direction == Vector2i.RIGHT:
+		return TileRotation.RIGHT
+	elif snake_direction == Vector2i.DOWN:
+		return TileRotation.DOWN
+	elif snake_direction == Vector2i.LEFT:
+		return TileRotation.LEFT
+	else:
+		return TileRotation.RIGHT
 
 
 func _input(_event: InputEvent) -> void:
