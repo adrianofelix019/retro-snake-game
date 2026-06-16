@@ -100,12 +100,20 @@ func get_head_direction() -> TileRotation:
 		return TileRotation.RIGHT
 
 
+func is_valid_move(new_direction: Vector2i) -> bool:
+	if snake_direction.x == -new_direction.x:
+		return false
+	if snake_direction.y == -new_direction.y:
+		return false
+	return true
+
+
 func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_up"):
+	if Input.is_action_just_pressed("ui_up") and is_valid_move(Vector2i.UP):
 		snake_direction = Vector2i.UP
-	if Input.is_action_just_pressed("ui_right"):
+	if Input.is_action_just_pressed("ui_right") and is_valid_move(Vector2i.RIGHT):
 		snake_direction = Vector2i.RIGHT
-	if Input.is_action_just_pressed("ui_down"):
+	if Input.is_action_just_pressed("ui_down") and is_valid_move(Vector2i.DOWN):
 		snake_direction = Vector2i.DOWN
-	if Input.is_action_just_pressed("ui_left"):
+	if Input.is_action_just_pressed("ui_left") and is_valid_move(Vector2i.LEFT):
 		snake_direction = Vector2i.LEFT
