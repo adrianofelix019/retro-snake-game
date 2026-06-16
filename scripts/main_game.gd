@@ -53,6 +53,8 @@ func draw_apple() -> void:
 		randi_range(0, 19),
 		randi_range(0, 19)
 	)
+	if random_coords in snake_body:
+		draw_apple()
 	apple_position = random_coords
 	$GameTile.set_cell(
 		FIRST_LAYER,
