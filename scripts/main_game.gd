@@ -65,12 +65,13 @@ func draw_apple() -> void:
 func move_snake() -> void:
 	erase_trail()
 	var body_copy = snake_body.duplicate()
-	body_copy.pop_back()
 	var new_head = snake_body.front() + snake_direction
-	body_copy.insert(0, new_head)
-	snake_body = body_copy
 	if new_head == apple_position:
 		draw_apple()
+	else:
+		body_copy.pop_back()
+	body_copy.insert(0, new_head)
+	snake_body = body_copy
 
 
 func erase_trail() -> void:
@@ -86,7 +87,7 @@ func erase_trail() -> void:
 		$GameTile.erase_cell(FIRST_LAYER, cell_coords)
 
 
-func get_head_direction():
+func get_head_direction() -> TileRotation:
 	if snake_direction == Vector2i.UP:
 		return TileRotation.UP
 	elif snake_direction == Vector2i.RIGHT:
@@ -101,10 +102,10 @@ func get_head_direction():
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_up"):
-		snake_direction = Vector2i(0, -1)
+		snake_direction = Vector2i.UP
 	if Input.is_action_just_pressed("ui_right"):
-		snake_direction = Vector2i(1, 0)
+		snake_direction = Vector2i.RIGHT
 	if Input.is_action_just_pressed("ui_down"):
-		snake_direction = Vector2i(0, 1)
+		snake_direction = Vector2i.DOWN
 	if Input.is_action_just_pressed("ui_left"):
-		snake_direction = Vector2i(-1, 0)
+		snake_direction = Vector2i.LEFT
