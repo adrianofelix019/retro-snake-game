@@ -35,7 +35,7 @@ tile_set = SubResource("TileSet_0rdsr")
 format = 2
 
 [node name="GameTick" type="Timer" parent="." unique_id=631805506]
-wait_time = 0.4
+wait_time = 0.3
 autostart = true
 
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]
