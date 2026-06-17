@@ -61,6 +61,15 @@ func draw_apple() -> void:
 	)
 
 
+func was_apple_eaten(new_head: Vector2i) -> bool:
+	if new_head == apple_position:
+		calculate_apple_position()
+		draw_apple()
+		return true
+	else:
+		return false
+
+
 func calculate_apple_position() -> void:
 	var random_coords := Vector2i(
 		randi_range(0, 19),
@@ -73,15 +82,18 @@ func calculate_apple_position() -> void:
 
 func move_snake() -> void:
 	erase_trail()
-	var body_copy = snake_body.duplicate()
-	var new_head = snake_body.front() + snake_direction
-	if new_head == apple_position:
-		calculate_apple_position()
-		draw_apple()
-	else:
+	var body_copy := snake_body.duplicate()
+	var new_head: Vector2i = snake_body.front() + snake_direction
+	if snake_hit_itself(new_head):
+		restart_game()
+	if not was_apple_eaten(new_head):
 		body_copy.pop_back()
 	body_copy.insert(0, new_head)
 	snake_body = body_copy
+
+
+func snake_hit_itself(new_head: Vector2i) -> bool:
+	return new_head in snake_body
 
 
 func erase_trail() -> void:
@@ -116,6 +128,10 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 	if snake_direction.y == -new_direction.y:
 		return false
 	return true
+
+
+func restart_game() -> void:
+	get_tree().reload_current_scene()
 
 
 func _input(_event: InputEvent) -> void:
