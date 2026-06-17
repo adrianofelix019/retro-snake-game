@@ -18,20 +18,24 @@ enum TileRotation {
 	LEFT = TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,
 	UP = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
 }
+var score := 0
 
 
 func _ready() -> void:
-	draw_apple()
+	calculate_apple_position()
 
 
 func _on_game_tick_timeout() -> void:
+	draw_apple()
 	move_snake()
 	draw_snake()
 
 
 func draw_snake() -> void:
 	for index in snake_body.size():
-		if index == 0:
+		var is_head := index == 0
+		
+		if is_head:
 			$GameTile.set_cell(
 			FIRST_LAYER,
 			snake_body[index],
@@ -49,19 +53,22 @@ func draw_snake() -> void:
 
 
 func draw_apple() -> void:
+	$GameTile.set_cell(
+		FIRST_LAYER,
+		apple_position,
+		1,
+		Vector2i(0, 0)
+	)
+
+
+func calculate_apple_position() -> void:
 	var random_coords := Vector2i(
 		randi_range(0, 19),
 		randi_range(0, 19)
 	)
 	if random_coords in snake_body:
-		draw_apple()
+		calculate_apple_position()
 	apple_position = random_coords
-	$GameTile.set_cell(
-		FIRST_LAYER,
-		random_coords,
-		1,
-		Vector2i(0, 0)
-	)
 
 
 func move_snake() -> void:
@@ -69,6 +76,7 @@ func move_snake() -> void:
 	var body_copy = snake_body.duplicate()
 	var new_head = snake_body.front() + snake_direction
 	if new_head == apple_position:
+		calculate_apple_position()
 		draw_apple()
 	else:
 		body_copy.pop_back()
