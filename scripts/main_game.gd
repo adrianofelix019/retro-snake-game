@@ -86,6 +86,8 @@ func move_snake() -> void:
 	var new_head: Vector2i = snake_body.front() + snake_direction
 	if snake_hit_itself(new_head):
 		restart_game()
+	if snake_hit_wall(new_head):
+		restart_game()
 	if not was_apple_eaten(new_head):
 		body_copy.pop_back()
 	body_copy.insert(0, new_head)
@@ -94,6 +96,12 @@ func move_snake() -> void:
 
 func snake_hit_itself(new_head: Vector2i) -> bool:
 	return new_head in snake_body
+
+
+func snake_hit_wall(new_head: Vector2i) -> bool:
+	var top_right := new_head.x > 19 or new_head.y < 0
+	var bottom_left := new_head.x < 0 or new_head.y > 19
+	return top_right or bottom_left
 
 
 func erase_trail() -> void:
