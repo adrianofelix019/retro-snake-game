@@ -66,9 +66,9 @@ func calculate_apple_position() -> void:
 		randi_range(0, 19),
 		randi_range(0, 19)
 	)
+	apple_position = random_coords
 	if random_coords in snake_body:
 		calculate_apple_position()
-	apple_position = random_coords
 
 
 func move_snake() -> void:
