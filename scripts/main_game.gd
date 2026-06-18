@@ -74,6 +74,7 @@ func was_apple_eaten(new_head: Vector2i) -> bool:
 func increase_score() -> void:
 	score += 1
 	$Score.text = str(score)
+	$EatSound.play()
 
 
 func calculate_apple_position() -> void:
@@ -144,8 +145,13 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 	return true
 
 
+func play_death_sound() -> void:
+	$DeathSound.play()
+
 func restart_game() -> void:
-	get_tree().reload_current_scene()
+	snake_direction = Vector2i.ZERO
+	$GameTick.paused = true
+	play_death_sound()
 
 
 func _input(_event: InputEvent) -> void:
@@ -157,3 +163,7 @@ func _input(_event: InputEvent) -> void:
 		snake_direction = Vector2i.DOWN
 	if Input.is_action_just_pressed("ui_left") and is_valid_move(Vector2i.LEFT):
 		snake_direction = Vector2i.LEFT
+
+
+func _on_death_sound_finished() -> void:
+	get_tree().reload_current_scene()

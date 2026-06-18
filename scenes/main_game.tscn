@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://k25t7amktl8k" path="res://assets/apple1.png" id="3_d2op2"]
 [ext_resource type="Texture2D" uid="uid://xk1xwsecabtq" path="res://assets/grass.png" id="4_0rdsr"]
 [ext_resource type="FontFile" uid="uid://8vrsturui1ky" path="res://fonts/VCR_OSD_MONO_1.001.ttf" id="5_ipu61"]
+[ext_resource type="AudioStream" uid="uid://htrxeenbwy3n" path="res://assets/sounds/food-sound.wav" id="6_ygxny"]
+[ext_resource type="AudioStream" uid="uid://ca8la6xpuf5jx" path="res://assets/sounds/death-sound.wav" id="7_wi4c7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2op2"]
 texture = ExtResource("2_72e8q")
@@ -49,4 +51,11 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="EatSound" type="AudioStreamPlayer2D" parent="." unique_id=472942906]
+stream = ExtResource("6_ygxny")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=1185645534]
+stream = ExtResource("7_wi4c7")
+
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]
+[connection signal="finished" from="DeathSound" to="." method="_on_death_sound_finished"]
