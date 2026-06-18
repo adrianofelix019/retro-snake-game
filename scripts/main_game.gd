@@ -65,9 +65,15 @@ func was_apple_eaten(new_head: Vector2i) -> bool:
 	if new_head == apple_position:
 		calculate_apple_position()
 		draw_apple()
+		increase_score()
 		return true
 	else:
 		return false
+
+
+func increase_score() -> void:
+	score += 1
+	$Score.text = str(score)
 
 
 func calculate_apple_position() -> void:

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d02wiso5vdcid" path="res://assets/snake3.png" id="2_72e8q"]
 [ext_resource type="Texture2D" uid="uid://k25t7amktl8k" path="res://assets/apple1.png" id="3_d2op2"]
 [ext_resource type="Texture2D" uid="uid://xk1xwsecabtq" path="res://assets/grass.png" id="4_0rdsr"]
+[ext_resource type="FontFile" uid="uid://8vrsturui1ky" path="res://fonts/VCR_OSD_MONO_1.001.ttf" id="5_ipu61"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2op2"]
 texture = ExtResource("2_72e8q")
@@ -37,5 +38,15 @@ format = 2
 [node name="GameTick" type="Timer" parent="." unique_id=631805506]
 wait_time = 0.3
 autostart = true
+
+[node name="Score" type="Label" parent="." unique_id=1015019486]
+offset_right = 40.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_ipu61")
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]
