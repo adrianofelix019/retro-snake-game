@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://8vrsturui1ky" path="res://fonts/VCR_OSD_MONO_1.001.ttf" id="5_ipu61"]
 [ext_resource type="AudioStream" uid="uid://htrxeenbwy3n" path="res://assets/sounds/food-sound.wav" id="6_ygxny"]
 [ext_resource type="AudioStream" uid="uid://ca8la6xpuf5jx" path="res://assets/sounds/death-sound.wav" id="7_wi4c7"]
+[ext_resource type="AudioStream" uid="uid://d2icatyogdk7d" path="res://assets/sounds/bgm2.wav" id="8_70vka"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2op2"]
 texture = ExtResource("2_72e8q")
@@ -56,6 +57,11 @@ stream = ExtResource("6_ygxny")
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=1185645534]
 stream = ExtResource("7_wi4c7")
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="." unique_id=1775870796]
+stream = ExtResource("8_70vka")
+volume_db = -14.39
+autoplay = true
 
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]
 [connection signal="finished" from="DeathSound" to="." method="_on_death_sound_finished"]
