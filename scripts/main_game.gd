@@ -19,6 +19,7 @@ enum TileRotation {
 	UP = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
 }
 var score := 0
+var direction_changed := false
 
 
 func _ready() -> void:
@@ -29,6 +30,7 @@ func _on_game_tick_timeout() -> void:
 	draw_apple()
 	move_snake()
 	draw_snake()
+	direction_changed = false
 
 
 func draw_snake() -> void:
@@ -157,6 +159,8 @@ func restart_game() -> void:
 
 
 func _input(_event: InputEvent) -> void:
+	if direction_changed:
+		return
 	if Input.is_action_just_pressed("ui_up") and is_valid_move(Vector2i.UP):
 		snake_direction = Vector2i.UP
 	if Input.is_action_just_pressed("ui_right") and is_valid_move(Vector2i.RIGHT):
@@ -165,6 +169,7 @@ func _input(_event: InputEvent) -> void:
 		snake_direction = Vector2i.DOWN
 	if Input.is_action_just_pressed("ui_left") and is_valid_move(Vector2i.LEFT):
 		snake_direction = Vector2i.LEFT
+	direction_changed = true
 
 
 func _on_death_sound_finished() -> void:
