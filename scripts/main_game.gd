@@ -1,11 +1,11 @@
 extends Node2D
 
 
-const SNAKE_TILE_ID: int = 0
-const FIRST_LAYER: int = 0
-const SNAKE_BODY_COORDS:Vector2i = Vector2i(0, 0)
+const SNAKE_TILE_ID := 0
+const FIRST_LAYER := 0
+const SNAKE_BODY_COORDS := Vector2i(0, 0)
 const GAME_BOARD: Array[Vector2i] = []
-var snake_direction: Vector2i = Vector2i(1, 0)
+var snake_direction := Vector2i(1, 0)
 var snake_body: Array[Vector2i] = [
 	Vector2i(5, 10),
 	Vector2i(4, 10),
@@ -146,7 +146,9 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 
 
 func play_death_sound() -> void:
+	$BGM.stop()
 	$DeathSound.play()
+
 
 func restart_game() -> void:
 	snake_direction = Vector2i.ZERO
@@ -167,3 +169,4 @@ func _input(_event: InputEvent) -> void:
 
 func _on_death_sound_finished() -> void:
 	get_tree().reload_current_scene()
+	$BGM.play()
