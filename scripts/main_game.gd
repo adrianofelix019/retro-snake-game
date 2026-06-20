@@ -1,6 +1,6 @@
 extends Node2D
 
-# Adriano Vitor Andrade dos Santos Félix
+
 const SNAKE_TILE_ID: int = 0
 const FIRST_LAYER: int = 0
 const SNAKE_BODY_COORDS:Vector2i = Vector2i(0, 0)
