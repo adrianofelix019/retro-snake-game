@@ -20,6 +20,7 @@ enum TileRotation {
 }
 var score := 0
 var direction_changed := false
+var is_paused := false
 
 
 func _ready() -> void:
@@ -147,6 +148,14 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 	return true
 
 
+func handle_pause() -> void:
+	is_paused = not is_paused
+	if is_paused:
+		$GameTick.stop()
+	else:
+		$GameTick.start()
+
+
 func play_death_sound() -> void:
 	$BGM.stop()
 	$DeathSound.play()
@@ -159,6 +168,8 @@ func restart_game() -> void:
 
 
 func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("pause"):
+		handle_pause()
 	if direction_changed:
 		return
 	if Input.is_action_just_pressed("ui_up") and is_valid_move(Vector2i.UP):
