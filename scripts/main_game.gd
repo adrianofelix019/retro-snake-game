@@ -12,15 +12,21 @@ var snake_body: Array[Vector2i] = [
 	Vector2i(3, 10),
 ]
 var apple_position: Vector2i
+var score := 0
+var is_paused := false
 enum TileRotation {
 	RIGHT = 0,
 	DOWN = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H,
 	LEFT = TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,
 	UP = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
 }
-var score := 0
-var direction_changed := false
-var is_paused := false
+enum Direction {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+}
+var direction_queue: Array[Vector2i] = []
 
 
 func _ready() -> void:
@@ -28,10 +34,12 @@ func _ready() -> void:
 
 
 func _on_game_tick_timeout() -> void:
+	if not direction_queue.is_empty():
+		snake_direction = direction_queue.pop_front()
+	
 	draw_apple()
 	move_snake()
 	draw_snake()
-	direction_changed = false
 
 
 func draw_snake() -> void:
@@ -148,6 +156,16 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 	return true
 
 
+func queue_direction(direction: Vector2i) -> void:
+	if direction == snake_direction:
+		return
+	
+	if direction_queue.size() > 2:
+		return
+	
+	direction_queue.push_back(direction)
+
+
 func handle_pause() -> void:
 	is_paused = not is_paused
 	if is_paused:
@@ -172,17 +190,14 @@ func restart_game() -> void:
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause"):
 		handle_pause()
-	if direction_changed:
-		return
 	if Input.is_action_just_pressed("ui_up") and is_valid_move(Vector2i.UP):
-		snake_direction = Vector2i.UP
+		queue_direction(Vector2i.UP)
 	if Input.is_action_just_pressed("ui_right") and is_valid_move(Vector2i.RIGHT):
-		snake_direction = Vector2i.RIGHT
+		queue_direction(Vector2i.RIGHT)
 	if Input.is_action_just_pressed("ui_down") and is_valid_move(Vector2i.DOWN):
-		snake_direction = Vector2i.DOWN
+		queue_direction(Vector2i.DOWN)
 	if Input.is_action_just_pressed("ui_left") and is_valid_move(Vector2i.LEFT):
-		snake_direction = Vector2i.LEFT
-	direction_changed = true
+		queue_direction(Vector2i.LEFT)
 
 
 func _on_death_sound_finished() -> void:
