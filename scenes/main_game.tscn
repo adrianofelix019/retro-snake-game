@@ -62,5 +62,73 @@ stream = ExtResource("7_wi4c7")
 stream = ExtResource("8_70vka")
 volume_db = -14.39
 
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=300067051]
+visible = false
+
+[node name="Control" type="Control" parent="PauseMenu" unique_id=196652685]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=1459520288]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5176471)
+
+[node name="Label" type="Label" parent="PauseMenu" unique_id=751717135]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -65.5
+offset_right = 65.5
+offset_bottom = 29.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_ipu61")
+theme_override_font_sizes/font_size = 80
+text = "Pausado"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="PauseMenu" unique_id=1888227620]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -99.0
+offset_right = 78.0
+offset_bottom = -66.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_ipu61")
+theme_override_font_sizes/font_size = 28
+text = "Continuar"
+
+[node name="QuitButton" type="Button" parent="PauseMenu" unique_id=762260819]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -52.0
+offset_right = 37.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_ipu61")
+theme_override_font_sizes/font_size = 28
+text = "Sair"
+
 [connection signal="timeout" from="GameTick" to="." method="_on_game_tick_timeout"]
 [connection signal="finished" from="DeathSound" to="." method="_on_death_sound_finished"]
+[connection signal="pressed" from="PauseMenu/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="PauseMenu/QuitButton" to="." method="_on_quit_button_pressed"]

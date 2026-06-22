@@ -151,9 +151,11 @@ func is_valid_move(new_direction: Vector2i) -> bool:
 func handle_pause() -> void:
 	is_paused = not is_paused
 	if is_paused:
+		$PauseMenu.visible = true
 		$GameTick.stop()
 	else:
 		$GameTick.start()
+		$PauseMenu.visible = false
 
 
 func play_death_sound() -> void:
@@ -186,3 +188,11 @@ func _input(_event: InputEvent) -> void:
 func _on_death_sound_finished() -> void:
 	get_tree().reload_current_scene()
 	$BGM.play()
+
+
+func _on_continue_button_pressed() -> void:
+	handle_pause()
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
