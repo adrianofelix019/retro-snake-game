@@ -170,9 +170,11 @@ func queue_direction(direction: Vector2i) -> void:
 func handle_pause() -> void:
 	is_paused = not is_paused
 	if is_paused:
+		$BGM.stream_paused = true
 		$PauseMenu.visible = true
 		$GameTick.stop()
 	else:
+		$BGM.stream_paused = false
 		$GameTick.start()
 		$PauseMenu.visible = false
 
