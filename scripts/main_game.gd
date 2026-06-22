@@ -34,6 +34,7 @@ func _ready() -> void:
 
 
 func _on_game_tick_timeout() -> void:
+	print(direction_queue)
 	if not direction_queue.is_empty():
 		snake_direction = direction_queue.pop_front()
 	
@@ -148,19 +149,19 @@ func get_head_direction() -> TileRotation:
 		return TileRotation.RIGHT
 
 
-func is_valid_move(new_direction: Vector2i) -> bool:
-	if snake_direction.x == -new_direction.x:
-		return false
-	if snake_direction.y == -new_direction.y:
-		return false
-	return true
-
-
 func queue_direction(direction: Vector2i) -> void:
-	if direction == snake_direction:
+	var last_direction := snake_direction
+	
+	if not direction_queue.is_empty():
+		last_direction = direction_queue.back()
+	
+	if direction == last_direction:
 		return
 	
-	if direction_queue.size() > 2:
+	if direction == -last_direction:
+		return
+	
+	if direction_queue.size() >= 2:
 		return
 	
 	direction_queue.push_back(direction)
@@ -190,13 +191,13 @@ func restart_game() -> void:
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause"):
 		handle_pause()
-	if Input.is_action_just_pressed("ui_up") and is_valid_move(Vector2i.UP):
+	if Input.is_action_just_pressed("ui_up"):
 		queue_direction(Vector2i.UP)
-	if Input.is_action_just_pressed("ui_right") and is_valid_move(Vector2i.RIGHT):
+	if Input.is_action_just_pressed("ui_right"):
 		queue_direction(Vector2i.RIGHT)
-	if Input.is_action_just_pressed("ui_down") and is_valid_move(Vector2i.DOWN):
+	if Input.is_action_just_pressed("ui_down"):
 		queue_direction(Vector2i.DOWN)
-	if Input.is_action_just_pressed("ui_left") and is_valid_move(Vector2i.LEFT):
+	if Input.is_action_just_pressed("ui_left"):
 		queue_direction(Vector2i.LEFT)
 
 

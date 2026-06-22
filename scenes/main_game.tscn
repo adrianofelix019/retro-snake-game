@@ -61,6 +61,7 @@ stream = ExtResource("7_wi4c7")
 [node name="BGM" type="AudioStreamPlayer2D" parent="." unique_id=1775870796]
 stream = ExtResource("8_70vka")
 volume_db = -14.39
+autoplay = true
 
 [node name="PauseMenu" type="CanvasLayer" parent="." unique_id=300067051]
 visible = false
