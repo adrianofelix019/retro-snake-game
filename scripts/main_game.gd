@@ -34,7 +34,6 @@ func _ready() -> void:
 
 
 func _on_game_tick_timeout() -> void:
-	print(direction_queue)
 	if not direction_queue.is_empty():
 		snake_direction = direction_queue.pop_front()
 	
